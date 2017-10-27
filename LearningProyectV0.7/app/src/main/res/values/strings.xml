@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">LearningProyectV0.7</string>
+
+    <!-- Login Activity -->
+
+    <string name="usuario_txt">Usuario: </string>
+    <string name="contrasenia_txt">Contraseña: </string>
+    <string name="enviar_btn">Enviar</string>
+
+    <!-- ItemUsuario Activity -->
+
+    <string name="usuarioEmpleado">Test 1</string>
+    <string name="numEmpleado">Test 2</string>
+    <string name="Action_btn">Action</string>
+    <string name="title_activity_usuario">UsuarioActivity</string>
+
+    <!-- RecyclerViewUsuario Activity -->
+    <string name="logout_btn">Salir</string>
+    logout_btn
+
+</resources>

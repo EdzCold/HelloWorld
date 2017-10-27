@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.volley.profuturo.en501863.myapplication.MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/mostrar_ruta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!" />
+
+    <ImageView
+        android:id="@+id/imagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_profuturo"/>
+
+    <Button
+        android:id="@+id/guardar_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"/>
+    <Button
+        android:id="@+id/mostrar_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="mostrar"/>
+
+    <ImageView
+        android:id="@+id/load_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

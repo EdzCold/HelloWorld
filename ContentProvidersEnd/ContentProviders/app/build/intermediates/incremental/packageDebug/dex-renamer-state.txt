@@ -1,0 +1,7 @@
+#Fri Oct 27 13:06:11 CDT 2017
+base.0=C\:\\Users\\EN501863\\Desktop\\Repositorio\\Offline\\ContentProvidersEnd\\ContentProviders\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_9223c9ad7552c2e2a7dda0349ccc9616c226d99a
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=C\:\\Users\\EN501863\\Desktop\\Repositorio\\Offline\\ContentProvidersEnd\\ContentProviders\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_6e04b532e49f725a72fd605db2a3d5313d1ffde7\\classes.dex
+base.1=C\:\\Users\\EN501863\\Desktop\\Repositorio\\Offline\\ContentProvidersEnd\\ContentProviders\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_6e04b532e49f725a72fd605db2a3d5313d1ffde7
+file.0=C\:\\Users\\EN501863\\Desktop\\Repositorio\\Offline\\ContentProvidersEnd\\ContentProviders\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_9223c9ad7552c2e2a7dda0349ccc9616c226d99a\\classes.dex

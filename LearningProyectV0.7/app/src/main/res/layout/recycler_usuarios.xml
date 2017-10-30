@@ -8,22 +8,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="4dp">
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1">
 
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="TEST!!!"
             android:layout_weight="1"
-            android:background="@color/colorCustomBlue_50"/>
+            android:background="@color/colorCustomBlue_50"
+            android:text="TEST!!!" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Datos:"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:layout_margin="10dp"/>
+            android:text="Datos:" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,5 +48,33 @@
         android:scrollbars="vertical">
 
     </android.support.v7.widget.RecyclerView>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_weight="2">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/informacionContentProvider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hapticFeedbackEnabled="false">
+        </LinearLayout>
+    </ScrollView>
+
+    <!--
+    <LinearLayout
+        android:id="@+id/informacionContentProvider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    -->
 
 </LinearLayout>

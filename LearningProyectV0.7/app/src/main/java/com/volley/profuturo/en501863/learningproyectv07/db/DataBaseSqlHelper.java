@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 
 import com.volley.profuturo.en501863.learningproyectv07.db.TableData.TablaUsuario;
@@ -100,7 +101,7 @@ public class DataBaseSqlHelper extends SQLiteOpenHelper {
                 empleado.setImagePath(cursor.getString(cursor.getColumnIndex(TablaUsuario.COLUMNS_IMAGE)));
 //              empleado.setChecked(!"false".equals(cursor.getColumnIndex(TablaUsuario.COLUMNS_ISCHECKED)));
                 empleadoItem.add(empleado);
-                Log.d("cursorInformation: ",empleado.toString());
+                Log.d("cursorInformation: ", empleado.toString());
             }
         }
         return empleadoItem;
@@ -123,5 +124,14 @@ public class DataBaseSqlHelper extends SQLiteOpenHelper {
 
         Cursor cursor = sdb.query(TablaUsuario.TABLE_NAME, colums, null, null, null, null, null);
         return cursor;
+    }
+
+    public int guardatImagen(String base64) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TablaUsuario.COLUMNS_USUARIO, base64);
+
+        return db.update(TablaUsuario.TABLE_NAME, cv, "where ",null);
     }
 }

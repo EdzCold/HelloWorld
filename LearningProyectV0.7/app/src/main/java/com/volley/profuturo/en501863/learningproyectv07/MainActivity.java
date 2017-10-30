@@ -1,5 +1,6 @@
 package com.volley.profuturo.en501863.learningproyectv07;
 
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,15 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.volley.profuturo.en501863.learningproyectv07.volley.RequestLogin;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //variables para requestLogin
     private EditText usuario;
     private EditText contrasenia;
     private Button enviar;
     private RequestLogin requesPrepared;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,6 +2,8 @@ package com.volley.profuturo.en501863.learningproyectv07.customView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.volley.profuturo.en501863.learningproyectv07.MainActivity;
 import com.volley.profuturo.en501863.learningproyectv07.R;
@@ -34,6 +38,14 @@ public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnCl
     private Button salir;
     private Context context;
 
+    //variables para ContentAccessor
+    static final String TABLE_VICS = "vics";
+    static final String COLUMN_ID = "_ID";
+    static final String COLUMN_NAME = "name";
+    static final String COLUMN_IMAGE_BASE64 = "imagebase64";
+    static final Uri CONTENT_URI = Uri.parse("content://com.en501863.contentproviders.provider/" + TABLE_VICS);
+    LinearLayout linearLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +67,13 @@ public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnCl
 
         AdapterUsuario adapter = new AdapterUsuario(RecyclerViewUsuarios.this, empleado);
         recyclerViewUsuarios.setAdapter(adapter);
+        linearLayout = (LinearLayout) findViewById(R.id.informacionContentProvider);
+        updateList();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.logout_btn:
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
@@ -67,4 +81,30 @@ public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
+    public void updateList() {
+        linearLayout.removeAllViews();
+
+        Cursor cursor = getContentResolver().query(CONTENT_URI, null, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String id = cursor.getString(cursor.getColumnIndex(COLUMN_ID));
+                String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+                //String base64 = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_BASE64));
+
+                TextView textView = getNewTextView(id, name);
+                linearLayout.addView(textView);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+    }
+
+    private TextView getNewTextView(String id, String name) {
+        TextView textView = new TextView(this);
+        textView.setText(id + "  " + name);
+        textView.setTextSize(24f);
+        return textView;
+    }
+
 }

@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.volley.profuturo.en501863.learningproyectv07.MainActivity;
+import com.volley.profuturo.en501863.learningproyectv07.Util;
 import com.volley.profuturo.en501863.learningproyectv07.customView.RecyclerViewUsuarios;
 import com.volley.profuturo.en501863.learningproyectv07.db.DataBaseSqlHelper;
 
@@ -35,32 +36,20 @@ import java.util.Map;
 public class RequestLogin {
 
     private DataBaseSqlHelper bddh;
+    private Context context;
+    private String usuario;
+    private String contrasenia;
 
     public void consumirServicioLogin(final Context context, final String usuario, final String contrasenia) {
-        //String URL_RELATIVE = "mb/cusp/rest/autenticacionUsuario";
+//      String URL_RELATIVE = "mb/cusp/rest/autenticacionUsuario";
+//      Log.d("consumirServicioLogin", " status: true ");
 
-        Log.d("consumirServicioLogin", " status: true ");
+        this.context = context;
+        this.usuario = usuario;
+        this.contrasenia = contrasenia;
 
-        // Formato Json
-            /*{"rqt": {"aplicacion": "avanza",
-                       "usuario": "004173",
-                       "contrasena": "Profutur0"
-                       }
-               }
-        */
-
-        HashMap map = new HashMap();
-        HashMap mapJson = new HashMap();
-
-        map.put("aplicacion", "avanza");
-        map.put("usuario", usuario);
-        map.put("contrasena", contrasenia);
-        mapJson.put("rqt", map);
-
-        final JSONObject jsonRequest = new JSONObject(mapJson);
-
-        //delete
-        Log.d("JsonGenerated: ", jsonRequest.toString());
+        HashMap mapJson = generateFormatCode();
+        JSONObject jsonRequest = new JSONObject(mapJson);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -69,71 +58,26 @@ public class RequestLogin {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         Log.d("inOnResponse: ", response.toString());
 
                         if (response.has("confirmacion")) {  //Validar json if(response is OK)
-//                            Date d = new Date();
-//                            CharSequence fechaInicio = DateFormat.format("MMMM d, yyyy ", d.getTime());
-//                            CharSequence fechaInicio = "";
 
-                            Calendar c = new GregorianCalendar();
-                            Date date = new Date();
-                            c.setTime(date);
-
-                            String fechaInicio = c.get(Calendar.DATE) +" "+ c.get(Calendar.HOUR) +" "+ c.get(Calendar.MINUTE) +
-                                    " "+ c.get(Calendar.SECOND) +" "+ c.get(Calendar.MILLISECOND); //+  df.MILLISECOND_FIELD
-
-//                            Log.d("Fecha1", fechaInicio );
-//                            Log.d("Fecha2", c.get(Calendar.LONG) + "");
-
-                            bddh = new DataBaseSqlHelper(context);
-                            bddh.eliminarTablaRegistros();
+                            String fechaInicio = Util.getDate();
 
 //                            StoreFile storage = new StoreFile();
 //                            ArrayList<Bitmap> map = new ArrayList<>();
 //                            Bitmap icon1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.icon_profuturo);
+//                            map.add(icon1);
 
+                            long okRegistro = registrarElementosTest(response, fechaInicio);
 
-                            //                          map.add(icon1);
-
-
-                            try {
-
-                                //                            for (Bitmap m : map) {
-                                //                            Log.d("path_img_1: ", m.getByteCount() + "");
-
-//                                    String path_img = storage.saveToInternalStorage(context, m);
-                                //                          Log.d("imagen", path_img);
-                                //                        Log.d("path_img_2: ", response.getString("numeroEmpleado"));
-
-                                long okRegistro = 0;
-                                okRegistro = bddh.registrarUsuario(
-                                        usuario,
-                                        contrasenia,
-                                        response.getString("numeroEmpleado"),
-                                        fechaInicio.toString());
-
-////////////////////// Segundo registro 2
-                                bddh.registrarUsuario(
-                                        usuario,
-                                        contrasenia,
-                                        response.getString("numeroEmpleado"),
-                                        fechaInicio);
-
-                                Log.d("okRegistro: ", okRegistro + "");
-
-                                if (okRegistro > 0) {
-                                    Toast.makeText(context, Constant.REGISTRO_OK, Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(context, RecyclerViewUsuarios.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    context.startActivity(intent);
-                                }
-
-                            } catch (JSONException ex) {
-                                Log.d("JSON_Eror: ", ex.toString());
-                                ex.printStackTrace();
+                            if (okRegistro > 0) {
+                                Toast.makeText(context, Constant.REGISTRO_OK, Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(context, RecyclerViewUsuarios.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                context.startActivity(intent);
                             }
+
 
                         } else if (response.has("Exception")) {
                             try {
@@ -172,4 +116,63 @@ public class RequestLogin {
 
         VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
+
+    public long registrarElementosTest(JSONObject response, String fechaInicio) {
+        //registro return - 0 false && 1 true
+        long okRegistro = 0;
+
+        bddh = new DataBaseSqlHelper(context);
+        bddh.eliminarTablaRegistros();
+        long okRegistroSession = 0;
+
+        okRegistro = bddh.registrarSession("1", "EN501863", fechaInicio);
+
+        try {
+            okRegistro = bddh.registrarUsuario(
+                    usuario,
+                    contrasenia,
+                    response.getString("numeroEmpleado"),
+                    fechaInicio);
+
+            ////////////////////// Segundo registro 2
+
+            bddh.registrarUsuario(
+                    usuario,
+                    contrasenia,
+                    response.getString("numeroEmpleado"),
+                    fechaInicio);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("okRegistro: ", okRegistro + "");
+
+        return okRegistro;
+    }
+
+    /**
+     * Formato Json of service
+     * {"rqt": {"aplicacion": "avanza",
+     * "usuario": "004173",
+     * "contrasena": "Profutur0"}
+     * }
+     *
+     * @return HashMap for transform to JsonObject
+     */
+    public HashMap generateFormatCode() {
+        //
+            /*
+        */
+        HashMap map = new HashMap();
+        HashMap mapJson = new HashMap();
+
+        map.put("aplicacion", "avanza");
+        map.put("usuario", usuario);
+        map.put("contrasena", contrasenia);
+        mapJson.put("rqt", map);
+
+        return mapJson;
+    }
+
 }

@@ -1,11 +1,15 @@
 package com.volley.profuturo.en501863.learningproyectv07.customView;
 
+
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +20,12 @@ import android.widget.TextView;
 
 import com.volley.profuturo.en501863.learningproyectv07.MainActivity;
 import com.volley.profuturo.en501863.learningproyectv07.R;
+import com.volley.profuturo.en501863.learningproyectv07.Utilities.ContentConstants;
+import com.volley.profuturo.en501863.learningproyectv07.adapter.AdapterProvider;
 import com.volley.profuturo.en501863.learningproyectv07.adapter.AdapterUsuario;
 import com.volley.profuturo.en501863.learningproyectv07.db.DataBaseSqlHelper;
+import com.volley.profuturo.en501863.learningproyectv07.fragments.InfoCartera;
+import com.volley.profuturo.en501863.learningproyectv07.model.ContentInformation;
 import com.volley.profuturo.en501863.learningproyectv07.model.EmpleadoInformacion;
 
 import java.util.ArrayList;
@@ -31,12 +39,14 @@ import java.util.ArrayList;
  * Created by edrag on 16/10/2017.
  */
 
-public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnClickListener {
+public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnClickListener, AdapterProvider.setOnProviderListener {
 
     private RecyclerView recyclerViewUsuarios;
     private RecyclerView.Adapter mAdapter;
     private Button salir;
+    private RecyclerView reciclo;
     private Context context;
+
 
     //variables para ContentAccessor
     static final String TABLE_VICS = "vics";
@@ -53,7 +63,6 @@ public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnCl
 
         context = this;
         salir = (Button) findViewById(R.id.logout_btn);
-
         salir.setOnClickListener(this);
 
         Context context = this;
@@ -67,8 +76,17 @@ public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnCl
 
         AdapterUsuario adapter = new AdapterUsuario(RecyclerViewUsuarios.this, empleado);
         recyclerViewUsuarios.setAdapter(adapter);
-        linearLayout = (LinearLayout) findViewById(R.id.informacionContentProvider);
-        updateList();
+
+
+        reciclo = (RecyclerView) findViewById(R.id.reciclo);
+        LinearLayoutManager x = new LinearLayoutManager(RecyclerViewUsuarios.this);
+        reciclo.setLayoutManager(x);
+
+        AdapterProvider y = new AdapterProvider(getApplication(), this);
+        reciclo.setAdapter(y);
+
+//        Fragment fragment = new InfoCartera();
+//        getSupportFragmentManager().beginTransaction().add(fragment,"FRAGMENT").commit();
     }
 
     @Override
@@ -90,7 +108,7 @@ public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnCl
             do {
                 String id = cursor.getString(cursor.getColumnIndex(COLUMN_ID));
                 String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-                //String base64 = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_BASE64));
+                String base64 = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_BASE64));
 
                 TextView textView = getNewTextView(id, name);
                 linearLayout.addView(textView);
@@ -107,4 +125,27 @@ public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnCl
         return textView;
     }
 
+    @Override
+    public void cargarInfo(ContentInformation v) {
+        if(getSupportFragmentManager().findFragmentByTag("FRAGMENT") != null) {
+            Fragment info = InfoCartera.newInstance(v.getId(), v.getNombre(), v.getBase64());
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, info, "FRAGMENT").commit();
+        }else{
+            Fragment info = InfoCartera.newInstance(v.getId(), v.getNombre(), v.getBase64());
+            getSupportFragmentManager().beginTransaction().add(R.id.frame, info, "FRAGMENT").commit();
+        }
+    }
+
+    public void llamarContentProvider() {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.volley.profuturo.en501863.imageprovider","com.volley.profuturo.en501863.imageprovider.MainActivity"));
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        reciclo = (RecyclerView) findViewById(R.id.reciclo);
+        LinearLayoutManager x = new LinearLayoutManager(RecyclerViewUsuarios.this);
+        reciclo.setLayoutManager(x);
+    }
 }

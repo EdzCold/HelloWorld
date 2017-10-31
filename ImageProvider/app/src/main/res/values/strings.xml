@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- Name Aplication -->
+
+    <string name="app_name">ImageProvider</string>
+
+    <!-- Name Aplication -->
+    <string name="sendBtn"> Send </string>
+
+</resources>

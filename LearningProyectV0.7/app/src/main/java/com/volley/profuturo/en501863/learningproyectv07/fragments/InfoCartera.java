@@ -29,17 +29,31 @@ import com.volley.profuturo.en501863.learningproyectv07.R;
 public class InfoCartera extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1="id";
-    private static final String ARG_PARAM2="name";
-    private static final String ARG_PARAM3="base64";
+    private static final String ARG_PARAM1 = "id";
+    private static final String ARG_PARAM2 = "name";
+    private static final String ARG_PARAM3 = "base64";
+    private static final String ARG_PARAM4 = "lastName";
+    private static final String ARG_PARAM5 = "telefono";
+    private static final String ARG_PARAM6 = "codigPostal";
+    private static final String ARG_PARAM7 = "direccion";
+
     private View root;
     private ImageView foto;
     private TextView nombre;
+    private TextView lastNameText;
+    private TextView phoneNumberText;
+    private TextView codigoPostalText;
+    private TextView direccionText;
 
     // TODO: Rename and change types of parameters
     private String mId;
     private String mName;
     private String mBase64;
+    private String mlastName;
+    private String mtelefono;
+    private String mcodigPostal;
+    private String mdireccion;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -49,12 +63,20 @@ public class InfoCartera extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static Fragment newInstance(String id, String name, String base64) {
+    public static Fragment newInstance(String id, String name, String base64, String mlastName,
+                                            String mtelefono, String mcodigPostal, String mdireccion) {
+
         InfoCartera fragment = new InfoCartera();
         Bundle args = new Bundle();
+
         args.putString(ARG_PARAM1, id);
         args.putString(ARG_PARAM2, name);
         args.putString(ARG_PARAM3, base64);
+        args.putString(ARG_PARAM4, mlastName);
+        args.putString(ARG_PARAM5, mtelefono);
+        args.putString(ARG_PARAM6, mcodigPostal);
+        args.putString(ARG_PARAM7, mdireccion);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,21 +88,38 @@ public class InfoCartera extends Fragment {
             mId = getArguments().getString(ARG_PARAM1);
             mName = getArguments().getString(ARG_PARAM2);
             mBase64 = getArguments().getString(ARG_PARAM3);
+            mlastName = getArguments().getString(ARG_PARAM4);
+            mtelefono = getArguments().getString(ARG_PARAM5);
+            mcodigPostal = getArguments().getString(ARG_PARAM6);
+            mdireccion = getArguments().getString(ARG_PARAM7);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        root=inflater.inflate(R.layout.fragment_info_cartera, container, false);
+        root = inflater.inflate(R.layout.fragment_info_cartera, container, false);
+
         foto = (ImageView) root.findViewById(R.id.image_view);
+
         nombre = (TextView) root.findViewById(R.id.nameText);
+        lastNameText = (TextView) root.findViewById(R.id.lastNameText);
+        phoneNumberText = (TextView) root.findViewById(R.id.phoneNumberText);
+        codigoPostalText = (TextView) root.findViewById(R.id.codigoPostalText);
+        direccionText = (TextView) root.findViewById(R.id.direccionText);
+
         byte[] decodedString = Base64.decode(mBase64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         foto.setImageBitmap(decodedByte);
-        nombre.setText(mName);
-        return root;
 
+        nombre.setText(mName);
+        lastNameText.setText(mlastName);
+        phoneNumberText.setText(mtelefono);
+        codigoPostalText.setText(mcodigPostal);
+        direccionText.setText(mdireccion);
+
+        return root;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

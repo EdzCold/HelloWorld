@@ -30,6 +30,12 @@ public class AdapterProvider extends RecyclerView.Adapter<AdapterProvider.ViewHo
     static final String COLUMN_ID = "_ID";
     static final String COLUMN_NAME = "name";
     static final String COLUMN_IMAGE_BASE64 = "imagebase64";
+
+    static final String COLUMN_PHONE_NUMBER = "phonenumber";
+    static final String COLUMN_LASTNAME = "lastname";
+    static final String COLUMN_CODIGO_POSTAL = "codigopostal";
+    static final String COLUMN_ADDRESS = "address";
+
     static final Uri CONTENT_URI = Uri.parse("content://com.en501863.contentproviders.provider/" + TABLE_VICS);
 
     public AdapterProvider(Context context, setOnProviderListener listener) {
@@ -45,6 +51,12 @@ public class AdapterProvider extends RecyclerView.Adapter<AdapterProvider.ViewHo
                 aux.setNombre(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
                 aux.setId(cursor.getString(cursor.getColumnIndex(COLUMN_ID)));
                 aux.setBase64(cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_BASE64)));
+
+                aux.setTelefono(cursor.getString(cursor.getColumnIndex(COLUMN_PHONE_NUMBER)));
+                aux.setLastName(cursor.getString(cursor.getColumnIndex(COLUMN_LASTNAME)));
+                aux.setCodigPostal(cursor.getString(cursor.getColumnIndex(COLUMN_CODIGO_POSTAL)));
+                aux.setDireccion(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
+
                 contentInformation.add(aux);
             } while (cursor.moveToNext());
             cursor.close();
@@ -65,6 +77,10 @@ public class AdapterProvider extends RecyclerView.Adapter<AdapterProvider.ViewHo
 
         viewHolder.texto.setText(item.getNombre());
 
+//        viewHolder.texto.setText(item.getLastName());
+//        viewHolder.texto.setText(item.getTelefono());
+//        viewHolder.texto.setText(item.getCodigPostal());
+//        viewHolder.texto.setText(item.getDireccion());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

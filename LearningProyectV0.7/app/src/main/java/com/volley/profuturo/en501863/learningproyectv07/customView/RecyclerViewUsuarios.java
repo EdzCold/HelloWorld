@@ -128,10 +128,13 @@ public class RecyclerViewUsuarios extends AppCompatActivity implements View.OnCl
     @Override
     public void cargarInfo(ContentInformation v) {
         if(getSupportFragmentManager().findFragmentByTag("FRAGMENT") != null) {
-            Fragment info = InfoCartera.newInstance(v.getId(), v.getNombre(), v.getBase64());
+            Fragment info = InfoCartera.newInstance(v.getId(), v.getNombre(), v.getBase64(), v.getLastName(),
+                    v.getTelefono(), v.getCodigPostal(), v.getCodigPostal());
+
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, info, "FRAGMENT").commit();
         }else{
-            Fragment info = InfoCartera.newInstance(v.getId(), v.getNombre(), v.getBase64());
+            Fragment info = InfoCartera.newInstance(v.getId(), v.getNombre(), v.getBase64(), v.getLastName(),
+                    v.getTelefono(), v.getCodigPostal(), v.getCodigPostal());
             getSupportFragmentManager().beginTransaction().add(R.id.frame, info, "FRAGMENT").commit();
         }
     }
